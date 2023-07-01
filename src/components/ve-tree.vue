@@ -9,8 +9,42 @@
     }"
     role="tree"
   >
+    <DynamicScroller
+      v-if="height && !isEmpty && isDynamic"
+      :items="dataList"
+      :min-item-size="minItemSize"
+      :emit-update="emitUpdate"
+      :style="{
+        height: height,
+        'overflow-y': 'auto',
+        'scroll-behavior': 'smooth',
+      }"
+      :buffer="buffer"
+      @update="onUpdate"
+    >
+      <template v-slot="{ item, index, active }">
+        <DynamicScrollerItem
+          :item="item"
+          :active="active"
+          :size-dependencies="sizeDependencies.map((key) => item[key])"
+          :data-index="index"
+          :data-active="active"
+        >
+        <ElTreeVirtualNode
+          :isDynamic="isDynamic"
+          :style="`min-height: ${minItemSize}px;`"
+          :node="item"
+          :item-size="itemSize"
+          :render-content="renderContent"
+          :show-checkbox="showCheckbox"
+          :render-after-expand="renderAfterExpand"
+          @node-expand="handleNodeExpand"
+        />
+        </DynamicScrollerItem>
+      </template>
+    </DynamicScroller>
     <RecycleScroller
-      v-if="height && !isEmpty"
+      v-else-if="height && !isEmpty"
       :style="{
         height: height,
         'overflow-y': 'auto',
@@ -23,7 +57,6 @@
     >
       <template slot-scope="{ active, item }">
         <ElTreeVirtualNode
-          v-if="active"
           :style="`height: ${itemSize}px;`"
           :node="item"
           :item-size="itemSize"
@@ -60,7 +93,7 @@
 
 <script>
 import TreeStore from "./model/tree-store";
-import { RecycleScroller } from "vue-virtual-scroller";
+import { DynamicScroller, DynamicScrollerItem } from 'vue-virtual-scroller'
 import "vue-virtual-scroller/dist/vue-virtual-scroller.css";
 import { getNodeKey, findNearestComponent } from "./model/util";
 import ElTreeNode from "./tree-node.vue";
@@ -72,8 +105,8 @@ export default {
   name: "VueEasyTree",
 
   components: {
-    // VirtualList,
-    RecycleScroller,
+    DynamicScroller,
+    DynamicScrollerItem,
     ElTreeNode,
     ElTreeVirtualNode,
   },
@@ -108,6 +141,30 @@ export default {
     itemSize: {
       type: Number,
       default: 26,
+    },
+    isDynamic: {
+      type: Boolean,
+      default: false,
+    },
+    minItemSize: {
+      type: Number,
+      default: 26,
+    },
+    buffer: { // 添加到滚动可见区域边缘以开始渲染更远的项目的像素量
+      type: Number,
+      default: 200,
+    },
+    emitUpdate: {
+      type: Boolean,
+      default: false,
+    },
+    onUpdate: {
+      type: Function,
+      default: () => {},
+    },
+    sizeDependencies: {
+      type: Array,
+      default: () => [],
     },
     autoExpandParent: {
       type: Boolean,
@@ -548,9 +605,8 @@ export default {
         dropNext = false;
       }
 
-      const targetPosition = dropNode.$el.getBoundingClientRect();
-      const treePosition = this.$el.getBoundingClientRect();
-
+      const targetPosition = dropNode.$el?.getBoundingClientRect();
+      const treePosition = this.$el?.getBoundingClientRect();
       let dropType;
       const prevPercent = dropPrev
         ? dropInner
@@ -581,7 +637,7 @@ export default {
 
       const iconPosition = dropNode.$el
         .querySelector(".el-tree-node__expand-icon")
-        .getBoundingClientRect();
+        ?.getBoundingClientRect();
       const dropIndicator = this.$refs.dropIndicator;
       if (dropType === "before") {
         indicatorTop = iconPosition.top - treePosition.top;

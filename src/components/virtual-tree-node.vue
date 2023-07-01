@@ -23,7 +23,7 @@
     @dragend.stop="handleDragEnd"
     @drop.stop="handleDrop"
   >
-    <div class="el-tree-node__content" :style="`height: ${itemSize}px;`">
+    <div class="el-tree-node__content">
       <span
         aria-hidden="true"
         :style="{
@@ -118,6 +118,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    isDynamic: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   data() {
@@ -149,7 +153,11 @@ export default {
   methods: {},
 
   created() {
-    this.init(this.$parent.$parent);
+    if(this.isDynamic) {
+      this.init(this.$parent.$parent.$parent.$parent);
+    } else {
+      this.init(this.$parent.$parent);
+    }
   },
 };
 </script>

@@ -1,14 +1,18 @@
 <template>
-  <div class="ve-tree" style="height: calc(100vh - 20px)">
+  <div class="ve-tree" style="height: calc(500px)">
     <vue-easy-tree
       ref="veTree"
       node-key="id"
       :data="treeData"
       :props="props"
-      :item-size="26"
-      height="calc(100vh - 30px)"
+      :minItemSize="50"
+      :sizeDependencies="['children']"
+      height="500px"
       show-checkbox
     >
+    <div :style="{
+      height: Math.random() * 100 + 'px',
+    }" slot-scope="{node}">{{ node.label }}</div>
     </vue-easy-tree>
   </div>
 </template>
@@ -53,4 +57,3 @@ export default {
   },
 };
 </script>
-
