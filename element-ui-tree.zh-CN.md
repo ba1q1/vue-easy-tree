@@ -809,6 +809,9 @@
 | accordion             | 是否每次只打开一个同级树节点展开                                                                                                           | boolean                                | —      | false  |
 | indent                | 相邻级节点间的水平缩进，单位为像素                                                                                                         | number                                 | —      | 16     |
 | item-size             | 每个节点的高度,单位为像素                                                                                                                  | number                                 | —      | 26     |
+| min-item-size             | 每个节点最小的高度,单位为像素(isDynamic开启时必传)                                                                                                                  | number                                 | —      | 26     |
+| isDynamic             | 是否开启动态计算子item高度模式                                                                                                                  | boolean                                 | —      | false     |
+| buffer             | 添加到滚动可见区域边缘以开始渲染更远的项目的像素量                                                                                                                  | number                                 | —      | 200     |
 | icon-class            | 自定义树节点的图标                                                                                                                         | string                                 | -      | -      |
 | lazy                  | 是否懒加载子节点，需与 load 方法结合使用                                                                                                   | boolean                                | —      | false  |
 | draggable             | 是否开启拖拽节点功能                                                                                                                       | boolean                                | —      | false  |
