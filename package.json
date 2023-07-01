@@ -20,6 +20,7 @@
         "url": "git+https://github.com/ba1q1/vue-virtual-tree.git"
     },
     "publishConfig": {
+        "access": "public",
         "registry": "https://registry.npmjs.org/"
     },
     "scripts": {
