@@ -93,7 +93,7 @@
 
 <script>
 import TreeStore from "./model/tree-store";
-import { DynamicScroller, DynamicScrollerItem } from 'vue-virtual-scroller'
+import { DynamicScroller, DynamicScrollerItem, RecycleScroller } from 'vue-virtual-scroller'
 import "vue-virtual-scroller/dist/vue-virtual-scroller.css";
 import { getNodeKey, findNearestComponent } from "./model/util";
 import ElTreeNode from "./tree-node.vue";
@@ -105,6 +105,7 @@ export default {
   name: "VueEasyTree",
 
   components: {
+    RecycleScroller,
     DynamicScroller,
     DynamicScrollerItem,
     ElTreeNode,

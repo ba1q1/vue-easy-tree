@@ -13,3 +13,4 @@ package-lock.json
 *.sln
 /package-lock.json
 .history
+./dist
