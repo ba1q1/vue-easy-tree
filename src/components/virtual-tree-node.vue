@@ -118,6 +118,11 @@ export default {
       type: Boolean,
       default: false,
     },
+    expandOnClickNode: {
+      type: Boolean,
+      default: true,
+    },
+    checkOnClickNode: Boolean,
     isDynamic: {
       type: Boolean,
       default: false,

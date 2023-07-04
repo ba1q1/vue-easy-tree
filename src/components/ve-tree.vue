@@ -22,7 +22,7 @@
       :buffer="buffer"
       @update="onUpdate"
     >
-      <template v-slot="{ item, index, active }">
+      <template #default="{ item, index, active }">
         <DynamicScrollerItem
           :item="item"
           :active="active"
@@ -38,6 +38,7 @@
           :render-content="renderContent"
           :show-checkbox="showCheckbox"
           :render-after-expand="renderAfterExpand"
+          :expand-on-click-node="expandOnClickNode"
           @node-expand="handleNodeExpand"
         />
         </DynamicScrollerItem>
@@ -50,7 +51,7 @@
         'overflow-y': 'auto',
         'scroll-behavior': 'smooth',
       }"
-      key-field="key"
+      :key-field="nodeKey"
       :items="dataList"
       :item-size="itemSize"
       :buffer="50"
@@ -62,6 +63,7 @@
           :item-size="itemSize"
           :render-content="renderContent"
           :show-checkbox="showCheckbox"
+          :expand-on-click-node="expandOnClickNode"
           :render-after-expand="renderAfterExpand"
           @node-expand="handleNodeExpand"
         />
